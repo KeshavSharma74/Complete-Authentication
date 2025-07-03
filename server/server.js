@@ -1,0 +1,25 @@
+import express from "express"
+import "dotenv/config"
+import cors from 'cors'
+import cookieParser from "cookie-parser";
+import connectDb from "./config/database.js";
+
+connectDb();
+
+const app=express();
+app.use(express.json());
+app.use(cookieParser());
+app.use(cors({
+    credentials:true,
+}))
+
+const port=process.env.PORT || 4000;
+
+app.get('/',(req,res)=>{
+    res.send("App is live");
+})
+
+app.listen(port,()=>{
+    console.log(`App is listening at ${port}`);
+})
+
