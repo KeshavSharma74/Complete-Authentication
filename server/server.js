@@ -3,6 +3,7 @@ import "dotenv/config"
 import cors from 'cors'
 import cookieParser from "cookie-parser";
 import connectDb from "./config/database.js";
+import auth from "./routes/auth.route.js";
 
 connectDb();
 
@@ -18,6 +19,8 @@ const port=process.env.PORT || 4000;
 app.get('/',(req,res)=>{
     res.send("App is live");
 })
+
+app.use("/api/v1/auth",auth);
 
 app.listen(port,()=>{
     console.log(`App is listening at ${port}`);
