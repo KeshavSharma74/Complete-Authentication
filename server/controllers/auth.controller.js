@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import { User } from "../models/user.model.js";
 import "dotenv/config"
+import transporter from "../config/nodemailer.js";
 
 const register = async(req,res) =>{
     
@@ -36,6 +37,14 @@ const register = async(req,res) =>{
         sameSite: (process.env.NODE_ENV)==="production"?"none":"strict",
         maxAge:7*24*60*60*1000
     });
+
+        console.log("Preparing to send welcome email to:", email);
+        await transporter.sendMail({
+        from: process.env.SENDER_MAIL,
+        to: email,
+        subject: "Welcome to my Website",
+        text: `Welcome to website! Your account has been created with email id: ${email}`,
+        });
     
     return res.json({
         success:true,
@@ -102,7 +111,9 @@ const login = async(req,res)=>{
             sameSite: (process.env.NODE_ENV)==="production"?"none":"strict",
             maxAge:7*24*60*60*1000
         });
-        
+    
+
+
         return res.json({
             success:true,
             message:"User login successfully",
@@ -113,6 +124,7 @@ const login = async(req,res)=>{
             },
             token
         })
+
 
     }
     catch(error){

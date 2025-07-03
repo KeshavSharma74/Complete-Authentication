@@ -5,6 +5,12 @@ import cookieParser from "cookie-parser";
 import connectDb from "./config/database.js";
 import auth from "./routes/auth.route.js";
 
+
+
+
+
+
+
 connectDb();
 
 const app=express();
@@ -25,4 +31,3 @@ app.use("/api/v1/auth",auth);
 app.listen(port,()=>{
     console.log(`App is listening at ${port}`);
 })
-
