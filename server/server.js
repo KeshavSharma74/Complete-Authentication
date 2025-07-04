@@ -4,12 +4,7 @@ import cors from 'cors'
 import cookieParser from "cookie-parser";
 import connectDb from "./config/database.js";
 import auth from "./routes/auth.route.js";
-
-
-
-
-
-
+import user from "./routes/user.route.js";
 
 connectDb();
 
@@ -27,6 +22,7 @@ app.get('/',(req,res)=>{
 })
 
 app.use("/api/v1/auth",auth);
+app.use("/api/v1/user",user)
 
 app.listen(port,()=>{
     console.log(`App is listening at ${port}`);
