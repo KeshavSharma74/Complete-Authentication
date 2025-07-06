@@ -5,7 +5,6 @@ import axios from "axios"
 import AppContent from '../context/AppContext'
 import { toast } from 'react-toastify'
 
-
 const EmailVerify = () => {
   const navigate = useNavigate();
   const OTP_LENGTH = 6;
@@ -75,7 +74,7 @@ const EmailVerify = () => {
     }
   };
 
-  useEffect( ()=>{
+  useEffect( ()=> {
     isLoggedin && userData && userData.isAccountVerified && navigate('/');
   },[userData,isLoggedin]);
 
@@ -106,12 +105,12 @@ const EmailVerify = () => {
               ))}
             </div>
 
-            <button
-              className='mt-6 bg-purple-600 hover:bg-purple-700 hover:cursor-pointer px-6 py-2 rounded text-white font-semibold'
+            <div
               onClick={handleVerifyOTP}
+              className='font-bold bg-gradient-to-r from-indigo-500 to-indigo-600 w-full px-5 py-2 rounded-3xl flex items-center justify-center hover:cursor-pointer mt-6'
             >
               Verify OTP
-            </button>
+            </div>
 
           </div>
         </div>
@@ -120,4 +119,4 @@ const EmailVerify = () => {
   )
 }
 
-export default EmailVerify
+export default EmailVerify;
