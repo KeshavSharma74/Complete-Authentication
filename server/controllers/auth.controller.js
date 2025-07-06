@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken"
 import { User } from "../models/user.model.js";
 import "dotenv/config"
 import transporter from "../config/nodemailer.js";
+import { EMAIL_VERIFY_TEMPLATE,PASSWORD_RESET_TEMPLATE,WELCOME_EMAIL_TEMPLATE } from "../config/emailTemplates.js";
 
 const register = async(req,res) =>{
     
@@ -43,6 +44,7 @@ const register = async(req,res) =>{
         to: email,
         subject: "Welcome to my Website",
         text: `Welcome to website! Your account has been created with email id: ${email}`,
+        html:WELCOME_EMAIL_TEMPLATE.replace("{{email}}",email),
         });
     
     return res.json({
@@ -183,7 +185,8 @@ const sendVerifyOtp = async(req,res)=>{
             from:process.env.SENDER_MAIL,
             to:user.email,
             subject:"OTP Verification",
-            text:`Your otp for verification is ${otp}.`
+            // text:`Your otp for verification is ${otp}.`,
+            html:EMAIL_VERIFY_TEMPLATE.replace("{{otp}}",otp).replace("{{email}}",user.email)
         })
 
         return res.json({
@@ -310,7 +313,8 @@ const sendResetOTP = async(req,res) =>{
             from: process.env.SENDER_MAIL,
             to: email,
             subject: "Reset Password using OTP",
-            text: `Your OTP to reset password is : ${resetOtp}`,
+            // text: `Your OTP to reset password is : ${resetOtp}`,
+            html:PASSWORD_RESET_TEMPLATE.replace("{{otp}}",resetOtp).replace("{{email}}",email)
         });
 
         return res.json({
