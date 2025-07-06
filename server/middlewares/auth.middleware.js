@@ -4,10 +4,12 @@ import "dotenv/config"
 const userAuth = async(req,res,next)=>{
     const {token}=req.cookies;
     
+    // console.log("token bta rha hu : ",token);
+
     if(!token){
         return res.json({
             success:false,
-            message:"Not Authorized.Login Again"
+            message:"bhai middleware mei hi dikkat agyi .Not Authorized.Login Again"
         })
     }
 

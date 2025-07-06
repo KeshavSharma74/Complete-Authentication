@@ -9,7 +9,7 @@ auth.post('/login',login);
 auth.post('/logout',logout);
 auth.post('/send-verify-otp',userAuth,sendVerifyOtp);
 auth.post('/verify-email',userAuth,verifyEmail);
-auth.post('/is-auth',userAuth,isAuthenticated);
+auth.get('/is-auth',userAuth,isAuthenticated);
 auth.post('/send-reset-otp',sendResetOTP);
-auth.post('/reset-password',resetPassword)
+auth.post('/reset-password',resetPassword);
 export default auth;

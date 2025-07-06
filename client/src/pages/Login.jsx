@@ -1,12 +1,54 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {assets} from '../assets/assets.js'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import AppContent from '../context/AppContext.jsx'
 
 const Login = () => {
 
     const navigate = useNavigate();
+    const {backendUrl,setIsLoggedin,getUserData} = useContext(AppContent);
 
+    const submitHandler= async(e)=>{
+      try{
+        e.preventDefault();
+        if(state==='signup'){
+          const {data} =  await axios.post(backendUrl+'/api/v1/auth/register',{name,email,password},
+            {
+              withCredentials: true   
+            }
+          );
+          if(data.success){
+            setIsLoggedin(true);
+            getUserData();
+            toast.success('Registered Successfully')
+            navigate('/');
+          }
+          else{
+            toast.error(data.message);
+          }
+        }
+        else{
+          const {data} =await axios.post(backendUrl+'/api/v1/auth/login',{email,password},            {
+              withCredentials: true   
+            });
+          if(data.success){
+            setIsLoggedin(true);
+            getUserData();
+            toast.success('Loggedin Successfully')
+            navigate('/');
+          }
+          else{
+            toast.error(data.message);
+          }
+        }
+      }
+      catch(error){
+        toast.error(error.message);
+      }
+    }
     const [state,setState] = useState('signup');
     const [name,setName] = useState('');
     const [email,setEmail] = useState('');
@@ -44,7 +86,7 @@ const Login = () => {
                     <input 
                     onChange={ (e)=>setEmail(e.target.value) }
                     value={email}
-                    type="email" placeholder='Email id' required className='w-full outline-none placeholder:text-gray-200 '/>
+                    type="email" placeholder='Email id' required className='w-full outline-none  placeholder:text-gray-200 '/>
                   </div>
 
                   <div className=' flex gap-3 items-center bg-gray-700 w-full px-5 py-2 rounded-3xl'>
@@ -58,7 +100,7 @@ const Login = () => {
                 
                 <div onClick={ () => navigate('/reset-password')} className=' hover:cursor-pointer text-left self-start text-purple-300 text-[0.95rem]'>Forgot Password?</div>
 
-                <div className='font-bold bg-gradient-to-r from-indigo-500 to-indigo-600 w-full px-5 py-2 rounded-3xl flex items-center justify-center'>{state==="signup"? "Sign Up" : "Login"}</div>
+                <div onClick={submitHandler} className='font-bold bg-gradient-to-r from-indigo-500 to-indigo-600 w-full px-5 py-2 rounded-3xl flex items-center justify-center hover:cursor-pointer'>{state==="signup"? "Sign Up" : "Login"}</div>
 
                 </form>
 
