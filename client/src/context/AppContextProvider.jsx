@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import AppContent from "./AppContext";
 import axios from "axios";
-import { toast } from "react-toastify";
 
 const AppContextProvider = (props) =>{
 
@@ -9,27 +8,40 @@ const AppContextProvider = (props) =>{
     const [isLoggedin,setIsLoggedin] = useState(false);
     const [userData,setUserData] = useState(false);
 
-    const getAuthState = async() =>{
-        try{
-            const {data} = await axios.get(backendUrl+'/api/v1/auth/is-auth',{withCredentials:true});
+    const getAuthState = async () => {
+    try {
+        const { data } = await axios.get(`${backendUrl}/api/v1/auth/is-auth`, {
+        withCredentials: true,
+        });
 
-            if(data.success){
-                setIsLoggedin(true);
-                getUserData();
-            }
-
+        if (data.success) {
+        const user = await getUserData(); // only call if auth is true
+        if (user) {
+            setIsLoggedin(true);
+            setUserData(user);
+        } else {
+            setIsLoggedin(false);
+            setUserData(false);
         }
-        catch(error){
-            toast.error(error.message);
+        } else {
+        setIsLoggedin(false);
+        setUserData(false);
         }
+    } catch (error) {
+        console.error("Auth check failed silently:", error.message);
+        setIsLoggedin(false);
+        setUserData(false);
     }
+    };
+
+
 
     const getUserData = async() =>{
         console.log("login hogya aur get user data call hogya..!!")
         const {data} = await axios.get(backendUrl+'/api/v1/user/data',{
              withCredentials: true
         });
-        (data.success)? setUserData(data.userData) : toast.error(data.message);
+        if(data.success) setUserData(data.userData)
     }
 
     useEffect( ()=>{

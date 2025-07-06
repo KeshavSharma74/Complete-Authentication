@@ -44,7 +44,7 @@ const register = async(req,res) =>{
         to: email,
         subject: "Welcome to my Website",
         text: `Welcome to website! Your account has been created with email id: ${email}`,
-        html:WELCOME_EMAIL_TEMPLATE.replace("{{email}}",email),
+        html:WELCOME_EMAIL_TEMPLATE.replace("{{email}}",email).replace("{{name}}",name),
         });
     
     return res.json({
