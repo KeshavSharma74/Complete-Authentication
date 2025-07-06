@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(cors({
-    origin: "https://complete-authentica-git-64da51-keshav-sharmas-projects-c28077fb.vercel.app",
+    origin: "https://complete-authentication-n368f4h83.vercel.app",
     credentials:true,
 }))
 
