@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(cors({
-    origin: "https://complete-authentication-n368f4h83.vercel.app",
+    origin: true,
     credentials:true,
 }))
 
